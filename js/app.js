@@ -10,6 +10,7 @@ import { levelManager }  from './state/levelManager.js';
 import { soundManager }  from './engine/soundManager.js';
 import { showToast, launchConfetti } from './ui/utils.js';
 import { getDestination, getPack }   from './data/wordLists.js';
+import { isFirebaseActive, auth }    from './state/firebaseInit.js';
 
 // ─── DOM References ─────────────────────────────────────────────────────────
 const screens = {
@@ -67,6 +68,18 @@ function showScreen(name, renderFn) {
 function renderHome() {
   const s = screens.home;
   s.innerHTML = `
+    <!-- Home HUD -->
+    <div class="hud" style="width:100%; position:absolute; top: var(--sp-4); left:0; padding: 0 var(--sp-6); box-sizing:border-box; z-index: 10;">
+      <div class="hud-left">
+        <span class="level-badge" style="font-size: var(--text-xs); opacity: 0.85;">
+          ${isFirebaseActive ? '🟢 Cloud Connected' : '⚪ Local-only'}
+        </span>
+      </div>
+      <div class="hud-right">
+        <button class="settings-btn" id="btn-home-settings" title="Settings">⚙️</button>
+      </div>
+    </div>
+
     <div class="screen-inner" style="justify-content:center; min-height:100dvh; padding-top: var(--sp-16);">
       <div style="display:flex; flex-direction:column; align-items:center; gap: var(--sp-8); width:100%;">
 
@@ -89,13 +102,13 @@ function renderHome() {
 
         <div style="display:flex; gap:var(--sp-6); margin-top: var(--sp-4);">
           <div style="text-align:center;">
-            <div style="font-size:var(--text-2xl); font-weight:var(--fw-bold); color:var(--clr-gold-light);">
+            <div style="font-size:var(--text-2xl); font-weight:var(--fw-bold); color:var(--clr-gold-light);" id="home-coins-text">
               ${playerState.coins}
             </div>
             <div style="font-size:var(--text-xs); color:hsla(0,0%,100%,0.5);">Coins</div>
           </div>
           <div style="text-align:center;">
-            <div style="font-size:var(--text-2xl); font-weight:var(--fw-bold); color:var(--clr-ocean-pale);">
+            <div style="font-size:var(--text-2xl); font-weight:var(--fw-bold); color:var(--clr-ocean-pale);" id="home-hints-text">
               ${playerState.hints}
             </div>
             <div style="font-size:var(--text-xs); color:hsla(0,0%,100%,0.5);">Hints</div>
@@ -120,6 +133,7 @@ function renderHome() {
 
   s.querySelector('#btn-daily').addEventListener('click', () => router.go('daily'));
   s.querySelector('#btn-levels').addEventListener('click', () => router.go('levels'));
+  s.querySelector('#btn-home-settings').addEventListener('click', () => openSettingsModal());
 }
 
 // ─── LEVELS SCREEN ───────────────────────────────────────────────────────────
@@ -532,10 +546,102 @@ function stat(icon, label, value) {
 // ─── HUD Sync Helpers ────────────────────────────────────────────────────────
 function updateCoinDisplays(coins) {
   document.querySelectorAll('#hud-coins').forEach(el => el.textContent = coins);
+  const homeCoins = document.getElementById('home-coins-text');
+  if (homeCoins) homeCoins.textContent = coins;
 }
 
 function updateHintDisplays(hints) {
   document.querySelectorAll('#hud-hints').forEach(el => el.textContent = hints);
+  const homeHints = document.getElementById('home-hints-text');
+  if (homeHints) homeHints.textContent = hints;
+}
+
+// ─── SETTINGS MODAL ──────────────────────────────────────────────────────────
+function openSettingsModal() {
+  const existing = document.getElementById('settings-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'settings-modal';
+  modal.className = 'modal-backdrop';
+
+  const soundOn = playerState.getSetting('sound');
+  const hapticsOn = playerState.getSetting('haptics');
+  const userId = auth?.currentUser?.uid ?? '';
+  const shortId = userId ? `${userId.substring(0, 8)}...` : 'Not signed in';
+
+  modal.innerHTML = `
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h2 class="modal-title">Settings</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: var(--sp-4); margin: var(--sp-4) 0;">
+        
+        <!-- Sound FX -->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--clr-white); font-size: var(--text-sm); font-weight: var(--fw-medium);">🔊 Sound Effects</span>
+          <button class="btn btn--sm ${soundOn ? 'btn--primary' : 'btn--ghost'}" id="toggle-sound">
+            ${soundOn ? 'ON' : 'OFF'}
+          </button>
+        </div>
+
+        <!-- Haptics -->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--clr-white); font-size: var(--text-sm); font-weight: var(--fw-medium);">📳 Haptic Vibration</span>
+          <button class="btn btn--sm ${hapticsOn ? 'btn--primary' : 'btn--ghost'}" id="toggle-haptics">
+            ${hapticsOn ? 'ON' : 'OFF'}
+          </button>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid hsla(0,0%,100%,0.12); margin: var(--sp-2) 0;">
+
+        <!-- Cloud Sync Status -->
+        <div style="font-size: var(--text-xs); color: hsla(0,0%,100%,0.7);">
+          <div style="display: flex; align-items: center; gap: var(--sp-2); font-weight: var(--fw-bold); margin-bottom: var(--sp-1);">
+            <span>${isFirebaseActive ? '🟢 Cloud Sync Active' : '⚪ Local-only Mode'}</span>
+          </div>
+          <div style="color: hsla(0,0%,100%,0.4); font-family: monospace;">ID: ${shortId}</div>
+        </div>
+
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: var(--sp-2-5);">
+        <button class="btn btn--ghost" id="btn-reset-progress" style="color: var(--clr-salmon); width: 100%;">
+          ⚠️ Reset Game Progress
+        </button>
+        <button class="btn btn--primary" id="btn-close-settings" style="width: 100%;">Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Wire buttons
+  modal.querySelector('#toggle-sound').addEventListener('click', () => {
+    playerState.toggleSetting('sound');
+    soundManager.enabled = playerState.getSetting('sound');
+    if (soundManager.enabled) soundManager.chime();
+    openSettingsModal(); // Refresh modal
+  });
+
+  modal.querySelector('#toggle-haptics').addEventListener('click', () => {
+    playerState.toggleSetting('haptics');
+    if (playerState.getSetting('haptics') && navigator.vibrate) {
+      navigator.vibrate(20);
+    }
+    openSettingsModal(); // Refresh modal
+  });
+
+  modal.querySelector('#btn-reset-progress').addEventListener('click', () => {
+    if (confirm('Are you sure you want to reset all game progress? This cannot be undone.')) {
+      playerState.reset();
+      window.location.reload();
+    }
+  });
+
+  modal.querySelector('#btn-close-settings').addEventListener('click', () => {
+    modal.remove();
+  });
 }
 
 // ─── Boot ────────────────────────────────────────────────────────────────────

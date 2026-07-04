@@ -1,15 +1,4 @@
-/**
- * PLAYER STATE
- * Manages all persistent player data via localStorage.
- *
- * ─── v2 Migration Path ───────────────────────────────────────────────────
- * In v2, replace the localStorage calls below with Firebase Firestore reads/writes.
- * The public API surface is identical — no changes needed in GameEngine or UI.
- *
- * Suggested v2 adapter pattern:
- *   import { playerState } from './playerStateFirebase.js'; // same API
- * ─────────────────────────────────────────────────────────────────────────
- */
+import { auth, db, isFirebaseActive } from './firebaseInit.js';
 
 const STORAGE_KEY = 'cwp_player_v1';
 
@@ -33,9 +22,11 @@ class PlayerState {
   constructor() {
     this._data = this._load();
     this._checkDailyStreak();
+    this._userId = null;
+    this._initFirebase();
   }
 
-  // ─── Persistence (v2: swap these for Firestore) ──────────────────────────
+  // ─── Persistence & Sync ──────────────────────────────────────────────────
   _load() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -49,8 +40,64 @@ class PlayerState {
   _save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this._data));
+      // Sync to Firestore if authenticated
+      if (isFirebaseActive && db && this._userId) {
+        db.collection('users').doc(this._userId).set(this._data).catch(err => {
+          console.warn('[PlayerState] Firestore write queued/failed:', err);
+        });
+      }
     } catch (e) {
       console.warn('[PlayerState] Could not save:', e);
+    }
+  }
+
+  _initFirebase() {
+    if (!isFirebaseActive || !auth) return;
+
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        this._userId = user.uid;
+        await this._syncWithFirestore();
+      } else {
+        // Automatically sign in anonymously to start cloud sync
+        auth.signInAnonymously().catch(err => {
+          console.warn('[PlayerState] Anonymous sign-in failed:', err);
+        });
+      }
+    });
+  }
+
+  async _syncWithFirestore() {
+    if (!isFirebaseActive || !db || !this._userId) return;
+    try {
+      const docRef = db.collection('users').doc(this._userId);
+      const doc = await docRef.get();
+      if (doc.exists) {
+        const cloudData = doc.data();
+        // Resolve conflicts by merging progress and taking highest currency counts
+        const merged = {
+          coins: Math.max(this._data.coins, cloudData.coins ?? 0),
+          hints: Math.max(this._data.hints, cloudData.hints ?? 0),
+          completedLevels: { ...this._data.completedLevels, ...(cloudData.completedLevels ?? {}) },
+          unlockedPacks: [...new Set([...this._data.unlockedPacks, ...(cloudData.unlockedPacks ?? [])])],
+          totalWordsFound: Math.max(this._data.totalWordsFound, cloudData.totalWordsFound ?? 0),
+          totalBonusWords: Math.max(this._data.totalBonusWords, cloudData.totalBonusWords ?? 0),
+          dailyStreak: Math.max(this._data.dailyStreak, cloudData.dailyStreak ?? 0),
+          lastPlayedDate: cloudData.lastPlayedDate || this._data.lastPlayedDate,
+          settings: { ...this._data.settings, ...(cloudData.settings ?? {}) },
+        };
+        this._data = merged;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this._data));
+        // Trigger updates in UI
+        this._emit('coinsChanged', { coins: this._data.coins });
+        this._emit('hintsChanged', { hints: this._data.hints });
+      } else {
+        // Initial user creation in Firestore
+        await docRef.set(this._data);
+      }
+      console.log('[PlayerState] Cloud sync successful.');
+    } catch (e) {
+      console.warn('[PlayerState] Firestore sync failed, running locally:', e);
     }
   }
 

@@ -1,7 +1,7 @@
 // Service Worker for Calming Crosswords PWA
 // Cache core assets and serve offline
 
-const CACHE_NAME = 'calming-crosswords-v1.1';
+const CACHE_NAME = 'calming-crosswords-v1.2';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -43,10 +43,17 @@ const CORE_ASSETS = [
   './js/engine/soundManager.js',
   './js/state/playerState.js',
   './js/state/levelManager.js',
+  './js/state/firebaseInit.js',
   './js/ui/router.js',
   './js/ui/utils.js',
   './js/data/dictionary.js',
   './js/data/wordLists.js',
+
+  // Firebase CDN Scripts (cached for 100% offline TWA compatibility)
+  'https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js',
+  'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js',
+  'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js',
+  'https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js',
 ];
 
 self.addEventListener('install', event => {
