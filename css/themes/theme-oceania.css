@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════
+   THEME: OCEANIA — 🌴
+   Deep teal + tropical aquamarine
+   ═══════════════════════════════════════════ */
+
+[data-theme="oceania"] {
+  --theme-bg-start:    hsl(185, 60%, 28%);
+  --theme-bg-end:      hsl(160, 55%, 32%);
+  --theme-bg:          linear-gradient(135deg, var(--theme-bg-start), var(--theme-bg-end));
+
+  --theme-accent:      hsl(170, 60%, 48%);
+  --theme-accent-glow: hsla(170, 60%, 48%, 0.45);
+
+  --theme-cell-filled:      hsl(175, 30%, 93%);
+  --theme-cell-filled-text: hsl(185, 55%, 18%);
+
+  --theme-particle:    hsla(160, 65%, 55%, 0.6);
+  --theme-wave:        hsla(185, 50%, 42%, 0.12);
+}
+
+[data-theme="oceania"] #bg-layer {
+  background: var(--theme-bg);
+  background-size: 400% 400%;
+  animation: bgDrift 23s ease infinite;
+}
+
+[data-theme="oceania"] #bg-layer::before {
+  background:
+    radial-gradient(ellipse at 40% 85%, hsla(160, 60%, 50%, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 65% 15%, hsla(185, 65%, 55%, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="oceania"] #bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/backgrounds/oceania.png') center/cover no-repeat;
+  opacity: 0.18;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}

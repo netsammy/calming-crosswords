@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════
+   THEME: AMERICAS — 🌎
+   Rich jungle green + earthy olive
+   ═══════════════════════════════════════════ */
+
+[data-theme="americas"] {
+  --theme-bg-start:    hsl(145, 55%, 28%);
+  --theme-bg-end:      hsl(90, 55%, 32%);
+  --theme-bg:          linear-gradient(135deg, var(--theme-bg-start), var(--theme-bg-end));
+
+  --theme-accent:      hsl(120, 50%, 48%);
+  --theme-accent-glow: hsla(120, 50%, 48%, 0.45);
+
+  --theme-cell-filled:      hsl(100, 35%, 93%);
+  --theme-cell-filled-text: hsl(145, 50%, 18%);
+
+  --theme-particle:    hsla(90, 65%, 55%, 0.6);
+  --theme-wave:        hsla(145, 45%, 40%, 0.12);
+}
+
+[data-theme="americas"] #bg-layer {
+  background: var(--theme-bg);
+  background-size: 400% 400%;
+  animation: bgDrift 20s ease infinite;
+}
+
+[data-theme="americas"] #bg-layer::before {
+  background:
+    radial-gradient(ellipse at 35% 80%, hsla(90, 60%, 50%, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 15%, hsla(145, 55%, 45%, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="americas"] #bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/backgrounds/americas.png') center/cover no-repeat;
+  opacity: 0.18;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}

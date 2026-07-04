@@ -1,0 +1,45 @@
+/* ═══════════════════════════════════════════
+   THEME: MEDITERRANEAN — 🌊
+   Deep azure blues + turquoise accents
+   ═══════════════════════════════════════════ */
+
+[data-theme="mediterranean"] {
+  /* Background gradient */
+  --theme-bg-start:    hsl(200, 70%, 35%);
+  --theme-bg-end:      hsl(175, 60%, 40%);
+  --theme-bg:          linear-gradient(135deg, var(--theme-bg-start), var(--theme-bg-end));
+
+  /* Accent colour (used for highlights, active states) */
+  --theme-accent:      hsl(185, 65%, 50%);
+  --theme-accent-glow: hsla(185, 65%, 50%, 0.45);
+
+  /* Grid cell filled state */
+  --theme-cell-filled:      hsl(200, 50%, 92%);
+  --theme-cell-filled-text: hsl(200, 70%, 25%);
+
+  /* Decorative */
+  --theme-particle:    hsla(185, 80%, 65%, 0.6);
+  --theme-wave:        hsla(200, 60%, 55%, 0.15);
+}
+
+[data-theme="mediterranean"] #bg-layer {
+  background: var(--theme-bg);
+  background-size: 400% 400%;
+  animation: bgDrift 22s ease infinite;
+}
+
+[data-theme="mediterranean"] #bg-layer::before {
+  background:
+    radial-gradient(ellipse at 30% 70%, hsla(185, 70%, 55%, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 25%, hsla(200, 80%, 65%, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="mediterranean"] #bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/backgrounds/mediterranean.png') center/cover no-repeat;
+  opacity: 0.18;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Calming Crosswords",
+  "short_name": "Calming CW",
+  "description": "Travel the world one word at a time. Swipe letters to solve peaceful crossword puzzles.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a3a5c",
+  "theme_color": "#1a3a5c",
+  "categories": ["games", "education"],
+  "lang": "en",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

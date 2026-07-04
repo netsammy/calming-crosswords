@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════
+   CALMING CROSSWORDS — DESIGN TOKEN SYSTEM
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* ── Color Palette ── */
+  --clr-ocean-deep:    hsl(210, 55%, 22%);
+  --clr-ocean:         hsl(210, 55%, 32%);
+  --clr-ocean-mid:     hsl(210, 50%, 42%);
+  --clr-ocean-light:   hsl(210, 45%, 62%);
+  --clr-ocean-pale:    hsl(210, 40%, 88%);
+
+  --clr-gold:          hsl(42, 85%, 55%);
+  --clr-gold-light:    hsl(42, 90%, 72%);
+  --clr-gold-dark:     hsl(38, 80%, 38%);
+
+  --clr-sand:          hsl(38, 45%, 94%);
+  --clr-pearl:         hsl(220, 30%, 97%);
+  --clr-white:         hsl(0, 0%, 100%);
+
+  --clr-sage:          hsl(142, 42%, 42%);
+  --clr-sage-light:    hsl(142, 40%, 85%);
+
+  --clr-coral:         hsl(8, 72%, 60%);
+  --clr-coral-light:   hsl(8, 70%, 88%);
+
+  --clr-text-primary:  hsl(210, 30%, 15%);
+  --clr-text-secondary:hsl(210, 20%, 40%);
+  --clr-text-muted:    hsl(210, 15%, 60%);
+
+  /* ── Semantic Aliases ── */
+  --color-primary:     var(--clr-ocean);
+  --color-primary-dark:var(--clr-ocean-deep);
+  --color-accent:      var(--clr-gold);
+  --color-surface:     var(--clr-pearl);
+  --color-surface-alt: var(--clr-sand);
+  --color-success:     var(--clr-sage);
+  --color-error:       var(--clr-coral);
+  --color-text:        var(--clr-text-primary);
+  --color-text-dim:    var(--clr-text-secondary);
+
+  /* ── Typography ── */
+  --font-ui:    'Outfit', system-ui, sans-serif;
+  --font-grid:  'Playfair Display', Georgia, serif;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  --lh-tight:  1.2;
+  --lh-normal: 1.5;
+  --lh-loose:  1.75;
+
+  /* ── Spacing Scale (4px base) ── */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.25rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+
+  /* ── Border Radius ── */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   32px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-sm:  0 1px 4px hsla(210, 40%, 20%, 0.08);
+  --shadow-md:  0 4px 16px hsla(210, 40%, 20%, 0.12);
+  --shadow-lg:  0 8px 32px hsla(210, 40%, 20%, 0.16);
+  --shadow-xl:  0 16px 48px hsla(210, 40%, 20%, 0.20);
+  --shadow-glow:0 0 24px hsla(42, 85%, 55%, 0.45);
+  --shadow-inner: inset 0 2px 8px hsla(210, 40%, 20%, 0.10);
+
+  /* ── Transitions ── */
+  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:     cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring:     cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  --dur-fast:   150ms;
+  --dur-normal: 250ms;
+  --dur-slow:   400ms;
+  --dur-slower: 600ms;
+
+  /* ── Z-index Stack ── */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 100;
+  --z-modal:   200;
+  --z-toast:   300;
+  --z-top:     400;
+
+  /* ── Grid Cell Size ── */
+  --cell-size: clamp(28px, 7vw, 44px);
+  --cell-gap:  2px;
+
+  /* ── Letter Wheel ── */
+  --wheel-radius:    clamp(90px, 22vw, 130px);
+  --wheel-letter-sz: clamp(36px, 9vw, 52px);
+}

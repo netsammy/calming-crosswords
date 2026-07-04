@@ -1,0 +1,132 @@
+/* ═══════════════════════════════════════════
+   ANIMATIONS & KEYFRAMES
+   ═══════════════════════════════════════════ */
+
+/* ── Letter Reveal (cell fills in) ── */
+@keyframes cellReveal {
+  0%   { transform: scale(0) rotateY(90deg); opacity: 0; }
+  60%  { transform: scale(1.12) rotateY(-8deg); opacity: 1; }
+  80%  { transform: scale(0.96) rotateY(4deg); }
+  100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+}
+
+/* ── Cell Pop (when first touched) ── */
+@keyframes cellPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ── Shake (wrong word) ── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%  { transform: translateX(-8px); }
+  30%  { transform: translateX(8px); }
+  45%  { transform: translateX(-6px); }
+  60%  { transform: translateX(6px); }
+  75%  { transform: translateX(-3px); }
+  90%  { transform: translateX(3px); }
+}
+
+/* ── Float up (bonus word toast) ── */
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+  20%  { transform: translateY(-20px) scale(1.05); opacity: 1; }
+  80%  { transform: translateY(-60px) scale(1); opacity: 1; }
+  100% { transform: translateY(-90px) scale(0.9); opacity: 0; }
+}
+
+/* ── Cascade word complete ── */
+@keyframes cascadeIn {
+  0%   { transform: translateY(-12px) scale(0.85); opacity: 0; }
+  70%  { transform: translateY(2px) scale(1.04); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ── Glow pulse (selected letter) ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsla(42, 85%, 55%, 0.6); }
+  50%       { box-shadow: 0 0 0 8px hsla(42, 85%, 55%, 0); }
+}
+
+/* ── Spin (loading) ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Slide In from bottom ── */
+@keyframes slideInUp {
+  0%   { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Slide Out to bottom ── */
+@keyframes slideOutDown {
+  0%   { transform: translateY(0);    opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+/* ── Fade In ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Fade Out ── */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── Scale Bounce In ── */
+@keyframes bounceIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* ── Confetti piece ── */
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Star burst ── */
+@keyframes starBurst {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.3) rotate(10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ── Parallax drift (background) ── */
+@keyframes bgDrift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Ripple from letter ── */
+@keyframes ripple {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Hint sparkle ── */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50%       { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+
+/* ── Wobble (daily challenge badge) ── */
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25%  { transform: rotate(-8deg); }
+  75%  { transform: rotate(8deg); }
+}
+
+/* ── Utility Animation Classes ── */
+.anim-shake     { animation: shake var(--dur-slow) var(--ease-out-expo); }
+.anim-bounce-in { animation: bounceIn var(--dur-slow) var(--ease-spring) forwards; }
+.anim-fade-in   { animation: fadeIn var(--dur-normal) var(--ease-out-expo) forwards; }
+.anim-slide-up  { animation: slideInUp var(--dur-slow) var(--ease-out-expo) forwards; }

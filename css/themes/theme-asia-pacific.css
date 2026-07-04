@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════
+   THEME: ASIA PACIFIC — 🏯
+   Warm terracotta + amber sunset hues
+   ═══════════════════════════════════════════ */
+
+[data-theme="asia-pacific"] {
+  --theme-bg-start:    hsl(10, 70%, 35%);
+  --theme-bg-end:      hsl(35, 65%, 40%);
+  --theme-bg:          linear-gradient(135deg, var(--theme-bg-start), var(--theme-bg-end));
+
+  --theme-accent:      hsl(25, 80%, 55%);
+  --theme-accent-glow: hsla(25, 80%, 55%, 0.45);
+
+  --theme-cell-filled:      hsl(35, 50%, 93%);
+  --theme-cell-filled-text: hsl(10, 60%, 22%);
+
+  --theme-particle:    hsla(35, 85%, 65%, 0.6);
+  --theme-wave:        hsla(10, 55%, 50%, 0.12);
+}
+
+[data-theme="asia-pacific"] #bg-layer {
+  background: var(--theme-bg);
+  background-size: 400% 400%;
+  animation: bgDrift 24s ease infinite;
+}
+
+[data-theme="asia-pacific"] #bg-layer::before {
+  background:
+    radial-gradient(ellipse at 25% 75%, hsla(35, 75%, 60%, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, hsla(10, 70%, 55%, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="asia-pacific"] #bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/backgrounds/asia-pacific.png') center/cover no-repeat;
+  opacity: 0.18;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}

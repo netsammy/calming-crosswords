@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════
+   THEME: EUROPE — 🏰
+   Royal indigo + soft violet
+   ═══════════════════════════════════════════ */
+
+[data-theme="europe"] {
+  --theme-bg-start:    hsl(240, 45%, 32%);
+  --theme-bg-end:      hsl(270, 40%, 38%);
+  --theme-bg:          linear-gradient(135deg, var(--theme-bg-start), var(--theme-bg-end));
+
+  --theme-accent:      hsl(255, 55%, 60%);
+  --theme-accent-glow: hsla(255, 55%, 60%, 0.45);
+
+  --theme-cell-filled:      hsl(250, 30%, 94%);
+  --theme-cell-filled-text: hsl(240, 40%, 20%);
+
+  --theme-particle:    hsla(270, 55%, 65%, 0.6);
+  --theme-wave:        hsla(240, 40%, 50%, 0.12);
+}
+
+[data-theme="europe"] #bg-layer {
+  background: var(--theme-bg);
+  background-size: 400% 400%;
+  animation: bgDrift 25s ease infinite;
+}
+
+[data-theme="europe"] #bg-layer::before {
+  background:
+    radial-gradient(ellipse at 30% 75%, hsla(270, 50%, 55%, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 20%, hsla(240, 55%, 60%, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="europe"] #bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/backgrounds/europe.png') center/cover no-repeat;
+  opacity: 0.18;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}

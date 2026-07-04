@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════
+   THEME: AFRICA — 🌍
+   Warm sandy gold + burnt sienna
+   ═══════════════════════════════════════════ */
+
+[data-theme="africa"] {
+  --theme-bg-start:    hsl(25, 75%, 35%);
+  --theme-bg-end:      hsl(50, 70%, 38%);
+  --theme-bg:          linear-gradient(135deg, var(--theme-bg-start), var(--theme-bg-end));
+
+  --theme-accent:      hsl(38, 85%, 55%);
+  --theme-accent-glow: hsla(38, 85%, 55%, 0.45);
+
+  --theme-cell-filled:      hsl(42, 45%, 94%);
+  --theme-cell-filled-text: hsl(25, 65%, 20%);
+
+  --theme-particle:    hsla(42, 90%, 60%, 0.6);
+  --theme-wave:        hsla(25, 65%, 45%, 0.12);
+}
+
+[data-theme="africa"] #bg-layer {
+  background: var(--theme-bg);
+  background-size: 400% 400%;
+  animation: bgDrift 26s ease infinite;
+}
+
+[data-theme="africa"] #bg-layer::before {
+  background:
+    radial-gradient(ellipse at 20% 65%, hsla(42, 80%, 55%, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 30%, hsla(25, 70%, 50%, 0.08) 0%, transparent 50%);
+}
+
+[data-theme="africa"] #bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../assets/backgrounds/africa.png') center/cover no-repeat;
+  opacity: 0.18;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}
